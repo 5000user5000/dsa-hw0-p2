@@ -5,16 +5,16 @@
 //using namespace std;
 
 //先把要用的自訂義函數宣告,main才能用 
-int findNext(int board[25][25],int rowClue[25][13],int colClue[25][13],int row,int col);
-bool Recur(int board[25][25],int rowClue[25][13],int colClue[25][13],int row,int col,int total);
-bool valid(int board[25][25],int rowClue[25][13],int colClue[25][13],int row,int col);
+int findNext(int board[25][25],int rowClue[25][14],int colClue[25][14],int row,int col);
+bool Recur(int board[25][25],int rowClue[25][14],int colClue[25][14],int row,int col,int total);
+bool valid(int board[25][25],int rowClue[25][14],int colClue[25][14],int row,int col);
 bool isFull(int board[25][25],int row,int col,int total);
 void cleandown(int board[25][25],int row,int col,int cell);
 
 int main()
 {
 	int row,col,a=0,b=0,clue=0,total=0; 
-	int rowClue[25][13]={0},colClue[25][13]={0};//最多有12個,不過這樣會很麻煩,多一個備用在findNext不會跳出範圍,預設值0,不用也可反正都0 
+	int rowClue[25][14]={0},colClue[25][14]={0};//最多有12個,不過這樣會很麻煩,多一個備用在findNext不會跳出範圍,預設值0,不用也可反正都0 
 	int board[25][25]={0};//因為1 * 25也算 ,預設0 
 	bool justCall;//只是為呼叫recur 
 	
@@ -53,7 +53,7 @@ int main()
 	return 0;
 }
 
-bool Recur(int board[25][25],int rowClue[25][13],int colClue[25][13],int row,int col,int total)
+bool Recur(int board[25][25],int rowClue[25][14],int colClue[25][14],int row,int col,int total)
 {
    int cell;
    bool succeed;
@@ -103,13 +103,14 @@ bool Recur(int board[25][25],int rowClue[25][13],int colClue[25][13],int row,int
 } 
 
 //第一row看到下一個row ,return next要塗的格子index 
-int findNext(int board[25][25],int rowClue[25][13],int colClue[25][13],int row,int col)
+int findNext(int board[25][25],int rowClue[25][14],int colClue[25][14],int row,int col)
 {
 	    int rowclueNum,breakout=0,k=0,clue;
 		for(int i=0;i<row;i++)//三重迴圈 
 		{
-			clue=0;//歸零(忘)
+			clue=0;//歸零(忘) 
 			k=0; 
+			breakout =0;
 			while(rowClue[i][clue]>0)
 			{
 				
@@ -123,12 +124,12 @@ int findNext(int board[25][25],int rowClue[25][13],int colClue[25][13],int row,i
 					rowclueNum--;
 					breakout=j;//第j個結束
 				                   }
-				                   
 				  if(rowclueNum>0&& j<24 && board[i][j]==1 &&board[i][j+1]==-1)return -1;//如果連續三個,避免出現1 1 -1 1 0 這類中斷,浪費時間 
-				  //忘了考慮-1 -1 0 0 0 -> -1 -1 1 1 0 這樣的情況 ,增加  board[i][j]==1先確認是否開始連載                 
+				  //忘了考慮-1 -1 0 0 0 -> -1 -1 1 1 0 這樣的情況 ,增加  board[i][j]==1先確認是否開始連載             
 			      if(rowclueNum==0)break;
 	            
 				}
+				if(rowclueNum>0)return -1;//如果全跑過,但還是沒銷完,如有3個但 -1 -1 -1 1 1 
 				
 				k =breakout+2;
 				clue++;
@@ -138,13 +139,24 @@ int findNext(int board[25][25],int rowClue[25][13],int colClue[25][13],int row,i
 		return -1;//都沒有,可能是填滿(理論上填滿會被檢查full,所以不會有填滿的情況)或是無法填 
 }
 
-bool valid(int board[25][25],int rowClue[25][13],int colClue[25][13],int row,int col) 
+
+
+bool valid(int board[25][25],int rowClue[25][14],int colClue[25][14],int row,int col) 
 {
-    int breakout =0,k=0,colclueNum,clue=0;
+    int breakout =0,k=0,colclueNum,clue=1;
 	for(int i=0;i<col;i++)
 	{
-		clue=0;//重新歸0 (忘)
-		k=0; 
+		clue=0;//重新歸0 (忘) 
+		k=0;
+		if(colClue[i][0]==0)//如果這裡沒有黑格
+		{
+			for(int j=0;j<row;j++)
+			{
+				if(board[j][i]==1)return false;//如果這有黑格就 
+			}
+		}
+		
+		 
 		while(colClue[i][clue]>0)//塗格子是按照row規則,所以只要檢查col有無符合就好 
 		{
 		  
@@ -159,7 +171,12 @@ bool valid(int board[25][25],int rowClue[25][13],int colClue[25][13],int row,int
 				colclueNum--;
 				breakout=j;//第j個結束
 				if(j<24&& colclueNum>0 && board[j+1][i]!=1) return false;//如果是連續塗黑,而後面沒有黑就錯了,<24是怕out of range          
-			  
+			    if(colclueNum==0)
+				{
+					if(j<24&& board[j+1][i]>0) return false;//如果連續黑格後間隔是黑not白就是錯誤 
+					clue++;
+					colclueNum = colClue[i][clue];
+				}
 			  
 			  }
 			
@@ -169,12 +186,12 @@ bool valid(int board[25][25],int rowClue[25][13],int colClue[25][13],int row,int
 			{ 
 			  if(j<24&&board[j+1][i]>0)return false;//如果下一格該空格卻有數字就算錯誤 ,and ensure no out of range
 			  if(colclueNum<0) return false;//可能這行沒黑,但有黑就會<0 
-			  break;
+			  //break;不應離開,因為如果這行理應要2,但是2 1就檢查不出 
 	          }
 	          
 	        
 		  }
-		  k =breakout+2;//加2,因空白處已檢查 ,跳下一格可能黑的部分 
+		  //k =breakout+2;//加2,因空白處已檢查 ,跳下一格可能黑的部分 
 		  
 		  clue++;
 			
