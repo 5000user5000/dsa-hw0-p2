@@ -1,10 +1,10 @@
 #include<stdio.h>
 #include <string.h>
 #include<stdlib.h> 
-#include <stdbool.h> //¨Ï¥Îbool,c++¬Oª½±µ¤º«Ø 
+#include <stdbool.h> //ä½¿ç”¨bool,c++æ˜¯ç›´æ¥å…§å»º 
 //using namespace std;
 
-//¥ı§â­n¥Îªº¦Û­q¸q¨ç¼Æ«Å§i,main¤~¯à¥Î 
+//å…ˆæŠŠè¦ç”¨çš„è‡ªè¨‚ç¾©å‡½æ•¸å®£å‘Š,mainæ‰èƒ½ç”¨ 
 int findNext(int board[25][25],int rowClue[25][13],int colClue[25][13],int row,int col);
 bool Recur(int board[25][25],int rowClue[25][13],int colClue[25][13],int row,int col,int total);
 bool valid(int board[25][25],int rowClue[25][13],int colClue[25][13],int row,int col);
@@ -14,9 +14,9 @@ void cleandown(int board[25][25],int row,int col,int cell);
 int main()
 {
 	int row,col,a=0,b=0,clue=0,total=0; 
-	int rowClue[25][13]={0},colClue[25][13]={0};//³Ì¦h¦³12­Ó,¤£¹L³o¼Ë·|«Ü³Â·Ğ,¦h¤@­Ó³Æ¥Î¦bfindNext¤£·|¸õ¥X½d³ò,¹w³]­È0,¤£¥Î¤]¥i¤Ï¥¿³£0 
-	int board[25][25]={0};//¦]¬°1 * 25¤]ºâ ,¹w³]0 
-	bool justCall;//¥u¬O¬°©I¥srecur 
+	int rowClue[25][13]={0},colClue[25][13]={0};//æœ€å¤šæœ‰12å€‹,ä¸éé€™æ¨£æœƒå¾ˆéº»ç…©,å¤šä¸€å€‹å‚™ç”¨åœ¨findNextä¸æœƒè·³å‡ºç¯„åœ,é è¨­å€¼0,ä¸ç”¨ä¹Ÿå¯åæ­£éƒ½0 
+	int board[25][25]={0};//å› ç‚º1 * 25ä¹Ÿç®— ,é è¨­0 
+	bool justCall;//åªæ˜¯ç‚ºå‘¼å«recur 
 	
 	scanf("%d",&row);
 	scanf("%d",&col);
@@ -28,8 +28,8 @@ int main()
 	 for(int j=0;j<clue;j++)
 	 {
 	  
-	  scanf("%d",&rowClue[i][j]);//¨C¦¸clue®É¤~¤£·|¬~±¼¤§«eªº 
-	  total+=rowClue[i][j];//­pºâ¶Â®æ¼Æ,¤è«K¤§«á½T»{¬O§_¦³¶îº¡¶Â®æ 
+	  scanf("%d",&rowClue[i][j]);//æ¯æ¬¡clueæ™‚æ‰ä¸æœƒæ´—æ‰ä¹‹å‰çš„ 
+	  total+=rowClue[i][j];//è¨ˆç®—é»‘æ ¼æ•¸,æ–¹ä¾¿ä¹‹å¾Œç¢ºèªæ˜¯å¦æœ‰å¡—æ»¿é»‘æ ¼ 
 	 }
 	 
 	}
@@ -42,7 +42,7 @@ int main()
 	 for(int j=0;j<clue;j++)
 	 {
 	  
-	  scanf("%d",&colClue[i][j]);//¨C¦¸clue®É¤~¤£·|¬~±¼¤§«eªº 
+	  scanf("%d",&colClue[i][j]);//æ¯æ¬¡clueæ™‚æ‰ä¸æœƒæ´—æ‰ä¹‹å‰çš„ 
 	 }
 	
 	}
@@ -57,44 +57,44 @@ bool Recur(int board[25][25],int rowClue[25][13],int colClue[25][13],int row,int
 {
    int cell;
    bool succeed;
-   if(isFull(board,row,col,total))//½T»{¶îº¡¨S 
+   if(isFull(board,row,col,total))//ç¢ºèªå¡—æ»¿æ²’ 
    {
-   	if(valid(board,rowClue,colClue,row,col))//¦³®Äªº¸Ü 
+   	if(valid(board,rowClue,colClue,row,col))//æœ‰æ•ˆçš„è©± 
    	{
-	   //¥´¦L 
+	   //æ‰“å° 
 	   for(int i=0;i<row;i++)
 	   {
 	   	for(int j=0;j<col;j++)
 	   	{
-	   		if(board[i][j]==1)printf("o");//¥Î"",''·|¥X¿ù 
+	   		if(board[i][j]==1)printf("o");//ç”¨"",''æœƒå‡ºéŒ¯ 
 	   		else printf("_");
 		   }
-		printf("\n");//¸õ¦æ 
+		printf("\n");//è·³è¡Œ 
 	   }
 	   
 	   
 	   //return true;
-	   exit(0);//ª½±µ¤¤¤îµ{¦¡´N¤£¥ÎÄ~Äò¶]¨ä¥L´`Àô¤F 
+	   exit(0);//ç›´æ¥ä¸­æ­¢ç¨‹å¼å°±ä¸ç”¨ç¹¼çºŒè·‘å…¶ä»–å¾ªç’°äº† 
 	} 
    	else 
 	   return false;
    } 
    
    else{
-   	cell=findNext(board,rowClue,colClue,row,col);//§ä¤U¤@­Ó 
+   	cell=findNext(board,rowClue,colClue,row,col);//æ‰¾ä¸‹ä¸€å€‹ 
    	if(cell==-1)return false;
-   	board[cell/col][cell% col]=1;//¤W¦â 
-   	succeed = Recur(board,rowClue,colClue,row,col,total);//»¼°j 
+   	board[cell/col][cell% col]=1;//ä¸Šè‰² 
+   	succeed = Recur(board,rowClue,colClue,row,col,total);//éè¿´ 
    	
-   	if(succeed)return true;//¦ü¥G¨S¥Î³B,¦]¬°¦pªG¦¨¥\´Nª½±µexit ¨S¥²­nreturn 
+   	if(succeed)return true;//ä¼¼ä¹æ²’ç”¨è™•,å› ç‚ºå¦‚æœæˆåŠŸå°±ç›´æ¥exit æ²’å¿…è¦return 
    	
-   	cleandown(board,row,col,cell);//²M²z
-	board[cell/col][cell% col]= -1;//¶î¥Õ,Åınext¤£·|¨ì³o 
+   	cleandown(board,row,col,cell);//æ¸…ç†
+	board[cell/col][cell% col]= -1;//å¡—ç™½,è®“nextä¸æœƒåˆ°é€™ 
 	succeed = Recur(board,rowClue,colClue,row,col,total);
    	
 	if(succeed)return true;
-   	//memset(board, 0, sizeof board);//²MªÅ,¨Ï¥Îstring.h 
-   	//cell=-2;  make cell empty¦ü¥G¤£¥Î 
+   	//memset(board, 0, sizeof board);//æ¸…ç©º,ä½¿ç”¨string.h 
+   	//cell=-2;  make cell emptyä¼¼ä¹ä¸ç”¨ 
    	
 	return false;
    }
@@ -102,13 +102,13 @@ bool Recur(int board[25][25],int rowClue[25][13],int colClue[25][13],int row,int
 
 } 
 
-//²Ä¤@row¬İ¨ì¤U¤@­Órow ,return next­n¶îªº®æ¤lindex 
+//ç¬¬ä¸€rowçœ‹åˆ°ä¸‹ä¸€å€‹row ,return nextè¦å¡—çš„æ ¼å­index 
 int findNext(int board[25][25],int rowClue[25][13],int colClue[25][13],int row,int col)
 {
 	    int rowclueNum,breakout=0,k=0,clue;
-		for(int i=0;i<row;i++)//¤T­«°j°é 
+		for(int i=0;i<row;i++)//ä¸‰é‡è¿´åœˆ 
 		{
-			clue=0;//Âk¹s(§Ñ)
+			clue=0;//æ­¸é›¶(å¿˜)
 			k=0; 
 			while(rowClue[i][clue]>0)
 			{
@@ -116,22 +116,26 @@ int findNext(int board[25][25],int rowClue[25][13],int colClue[25][13],int row,i
 				rowclueNum = rowClue[i][clue]; 
 				for(int j=k;j<col;j++)
 			    {
-				  if(board[i][j]==0&&rowclueNum>0)return i*col+j;//®æ¼Æ0~24 
+				  if(board[i][j]==0&&rowclueNum>0)return i*col+j;//æ ¼æ•¸0~24 
 							
 				  if(board[i][j]==1)
 				  {
 					rowclueNum--;
-					breakout=j;//²Äj­Óµ²§ô
+					breakout=j;//ç¬¬jå€‹çµæŸ
 				                   }
+				                   
+				  if(rowclueNum>0&& j<24 && board[i][j]==1 &&board[i][j+1]==-1)return -1;//å¦‚æœé€£çºŒä¸‰å€‹,é¿å…å‡ºç¾1 1 -1 1 0 é€™é¡ä¸­æ–·,æµªè²»æ™‚é–“ 
+				  //å¿˜äº†è€ƒæ…®-1 -1 0 0 0 -> -1 -1 1 1 0 é€™æ¨£çš„æƒ…æ³ ,å¢åŠ   board[i][j]==1å…ˆç¢ºèªæ˜¯å¦é–‹å§‹é€£è¼‰                 
 			      if(rowclueNum==0)break;
 	            
 				}
+				
 				k =breakout+2;
 				clue++;
 			}
 					
 		}
-		return -1;//³£¨S¦³,¥i¯à¬O¶ñº¡(²z½×¤W¶ñº¡·|³QÀË¬dfull,©Ò¥H¤£·|¦³¶ñº¡ªº±¡ªp)©Î¬OµLªk¶ñ 
+		return -1;//éƒ½æ²’æœ‰,å¯èƒ½æ˜¯å¡«æ»¿(ç†è«–ä¸Šå¡«æ»¿æœƒè¢«æª¢æŸ¥full,æ‰€ä»¥ä¸æœƒæœ‰å¡«æ»¿çš„æƒ…æ³)æˆ–æ˜¯ç„¡æ³•å¡« 
 }
 
 bool valid(int board[25][25],int rowClue[25][13],int colClue[25][13],int row,int col) 
@@ -139,9 +143,9 @@ bool valid(int board[25][25],int rowClue[25][13],int colClue[25][13],int row,int
     int breakout =0,k=0,colclueNum,clue=0;
 	for(int i=0;i<col;i++)
 	{
-		clue=0;//­«·sÂk0 (§Ñ)
+		clue=0;//é‡æ–°æ­¸0 (å¿˜)
 		k=0; 
-		while(colClue[i][clue]>0)//¶î®æ¤l¬O«ö·Órow³W«h,©Ò¥H¥u­nÀË¬dcol¦³µL²Å¦X´N¦n 
+		while(colClue[i][clue]>0)//å¡—æ ¼å­æ˜¯æŒ‰ç…§rowè¦å‰‡,æ‰€ä»¥åªè¦æª¢æŸ¥colæœ‰ç„¡ç¬¦åˆå°±å¥½ 
 		{
 		  
 		  
@@ -153,24 +157,24 @@ bool valid(int board[25][25],int rowClue[25][13],int colClue[25][13],int row,int
 		    if(board[j][i]==1)//board[row][col]
 		    {
 				colclueNum--;
-				breakout=j;//²Äj­Óµ²§ô
-				if(j<24&& colclueNum>0 && board[j+1][i]!=1) return false;//¦pªG¬O³sÄò¶î¶Â,¦Ó«á­±¨S¦³¶Â´N¿ù¤F,<24¬O©Èout of range          
+				breakout=j;//ç¬¬jå€‹çµæŸ
+				if(j<24&& colclueNum>0 && board[j+1][i]!=1) return false;//å¦‚æœæ˜¯é€£çºŒå¡—é»‘,è€Œå¾Œé¢æ²’æœ‰é»‘å°±éŒ¯äº†,<24æ˜¯æ€•out of range          
 			  
 			  
 			  }
 			
-			if(colclueNum>0&&j==row-1)return false;//¦pªGµ²§ô³o¦æ®É,ÁÙ¥¼®ø±¼,´N¬O¿ù»~ 
+			if(colclueNum>0&&j==row-1)return false;//å¦‚æœçµæŸé€™è¡Œæ™‚,é‚„æœªæ¶ˆæ‰,å°±æ˜¯éŒ¯èª¤ 
 			
 			if(colclueNum<=0) 
 			{ 
-			  if(j<24&&board[j+1][i]>0)return false;//¦pªG¤U¤@®æ¸ÓªÅ®æ«o¦³¼Æ¦r´Nºâ¿ù»~ ,and ensure no out of range
-			  if(colclueNum<0) return false;//¥i¯à³o¦æ¨S¶Â,¦ı¦³¶Â´N·|<0 
+			  if(j<24&&board[j+1][i]>0)return false;//å¦‚æœä¸‹ä¸€æ ¼è©²ç©ºæ ¼å»æœ‰æ•¸å­—å°±ç®—éŒ¯èª¤ ,and ensure no out of range
+			  if(colclueNum<0) return false;//å¯èƒ½é€™è¡Œæ²’é»‘,ä½†æœ‰é»‘å°±æœƒ<0 
 			  break;
 	          }
 	          
 	        
 		  }
-		  k =breakout+2;//¥[2,¦]ªÅ¥Õ³B¤wÀË¬d ,¸õ¤U¤@®æ¥i¯à¶Âªº³¡¤À 
+		  k =breakout+2;//åŠ 2,å› ç©ºç™½è™•å·²æª¢æŸ¥ ,è·³ä¸‹ä¸€æ ¼å¯èƒ½é»‘çš„éƒ¨åˆ† 
 		  
 		  clue++;
 			
@@ -186,7 +190,7 @@ bool valid(int board[25][25],int rowClue[25][13],int colClue[25][13],int row,int
 	
 }
 
-bool isFull(int board[25][25],int row,int col,int total)//ÂÇ¥Ñ­pºâ¶Â®æÁ`¼Æ½T»{¬O§_¦³¶îº¡,¥u¬O¨C¦¸³£­n¶]¤@½ü ,¯Ó¸ê·½ 
+bool isFull(int board[25][25],int row,int col,int total)//è—‰ç”±è¨ˆç®—é»‘æ ¼ç¸½æ•¸ç¢ºèªæ˜¯å¦æœ‰å¡—æ»¿,åªæ˜¯æ¯æ¬¡éƒ½è¦è·‘ä¸€è¼ª ,è€—è³‡æº 
 {
 	int sum=0;
 	for(int i=0;i<row;i++)
@@ -200,18 +204,18 @@ bool isFull(int board[25][25],int row,int col,int total)//ÂÇ¥Ñ­pºâ¶Â®æÁ`¼Æ½T»{¬O
 	else return false;
 	
 }
-void cleandown(int board[25][25],int row,int col,int cell)//²M²z«á­±ªºcell 
+void cleandown(int board[25][25],int row,int col,int cell)//æ¸…ç†å¾Œé¢çš„cell 
 {
     
-    //int i = cell/col;//row
-    //int j = cell%col;//col
-    for(int i = cell/col;i<row;i++)
+    int i = cell/col;//row
+    int j = cell%col;//col
+    for(i;i<row;i++)
     {
-        for(int j = cell%col;j<col;j++)
+        for(j;j<col;j++)
         {
             board[i][j]=0;
         }
+        j = 0;//ä½¿å…¶å¾0é–‹å§‹ 
     }
     
 }
-
